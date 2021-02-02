@@ -334,6 +334,15 @@ const Home = () => {
     initialCurrentLocation,
   );
 
+  const onSelectCategory = (category) => {
+    // filter restaurant
+    let restaurantList = restaurantData.filter((a) =>
+      a.categories.includes(category.id),
+    );
+    setRestaurants(restaurantList);
+    setSelectedCategory(category);
+  };
+
   function renderHeader() {
     return (
       <View style={{flexDirection: 'row', height: 50}}>
@@ -385,18 +394,23 @@ const Home = () => {
           style={{
             padding: SIZES.padding,
             paddingBottom: SIZES.padding * 2,
-            backgroundColor: COLORS.primary,
+            backgroundColor:
+              selectedCategory?.id == item.id ? COLORS.primary : COLORS.white,
             borderRadius: SIZES.radius,
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: SIZES.padding,
             ...SIZES.shadow,
-          }}>
+          }}
+          onPress={() => onSelectCategory(item)}>
           <View
             style={{
               height: 50,
               width: 50,
-              backgroundColor: COLORS.white,
+              backgroundColor:
+                selectedCategory?.id == item.id
+                  ? COLORS.white
+                  : COLORS.lightGray,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 25,
@@ -407,6 +421,15 @@ const Home = () => {
               resizeMode="contain"
             />
           </View>
+          <Text
+            style={{
+              marginTop: SIZES.padding,
+              color:
+                selectedCategory?.id == item.id ? COLORS.white : COLORS.black,
+              ...FONTS.body5,
+            }}>
+            {item.name}
+          </Text>
         </TouchableOpacity>
       );
     };
