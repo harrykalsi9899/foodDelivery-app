@@ -12,7 +12,7 @@ import {
 import {COLORS, icons, FONTS, images, SIZES} from '../constants';
 import {FlatList} from 'react-native-gesture-handler';
 
-const Home = () => {
+const Home = ({navigation}) => {
   // Dummy Datas
 
   const initialCurrentLocation = {
@@ -458,8 +458,11 @@ const Home = () => {
 
   function renderRestaurantList() {
     const renderItem = ({item}) => (
-      <TouchableOpacity style={{marginBottom: SIZES.padding * 2}}>
-        {/* on press navigation to restaurant screen */}
+      <TouchableOpacity
+        style={{marginBottom: SIZES.padding * 2}}
+        onPress={() =>
+          navigation.navigate('Restaurant', {item, currentLocation})
+        }>
         {/* image */}
         <View style={{marginBottom: SIZES.padding}}>
           <Image
@@ -510,6 +513,20 @@ const Home = () => {
               );
             })}
           </View>
+          {/* price */}
+          {[1, 2, 3].map((priceRating) => (
+            <Text
+              key={priceRating}
+              style={{
+                ...FONTS.body3,
+                color:
+                  priceRating <= item.priceRating
+                    ? COLORS.black
+                    : COLORS.darkgray,
+              }}>
+              $
+            </Text>
+          ))}
         </View>
       </TouchableOpacity>
     );
